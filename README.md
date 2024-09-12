@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Index docs in Opper
-        uses: opper-ai/opper-index-action@v1
+        uses: opper-ai/opper-index-action@v1.0.0
         with:
           apikey: ${{ secrets.OPPER_API_KEY }}
 ```
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Index docs in Opper
-        uses: opper-ai/opper-index-action@v1
+        uses: opper-ai/opper-index-action@v1.0.0
         with:
           folder: 'docs'
           apikey: ${{ secrets.OPPER_API_KEY }}
@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Index docs in Opper
-        uses: opper-ai/opper-index-action@v1
+        uses: opper-ai/opper-index-action@v1.0.0
         with:
           apikey: ${{ secrets.OPPER_API_KEY }}
           model: 'azure/gpt-4o-eu'
@@ -83,7 +83,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Index docs in Opper
-        uses: opper-ai/opper-index-action@v1
+        uses: opper-ai/opper-index-action@v1.0.0
         with:
           apikey: ${{ secrets.OPPER_API_KEY }}
           file_types: '[".md", ".mdx", ".txt", ".html", ".js"]'
