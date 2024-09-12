@@ -86,5 +86,5 @@ jobs:
         uses: opper-ai/opper-index-action@v1.0.0
         with:
           apikey: ${{ secrets.OPPER_API_KEY }}
-          file_types: '[".md", ".mdx", ".txt", ".html", ".js"]'
+          file_types: '.md .mdx .txt .html .js'
 ```
