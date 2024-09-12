@@ -1,0 +1,31 @@
+name: "Index repository"
+description: "Index repository files in Opper"
+inputs:
+  folder:
+    description: "Folder to index"
+    required: true
+    default: "."
+  apikey:
+    description: "Opper API key"
+    required: true
+  index:
+    description: "Opper index name"
+    required: true
+    default: "github-docs"
+  model:
+    description: "Custom model to use for indexing"
+    required: false
+    default: "anthropic/claude-3.5-sonnet"
+  file_types:
+    description: "JSON array of file extensions to index"
+    required: false
+    default: ".md .mdx .txt"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.apikey }}
+    - ${{ inputs.index }}
+    - ${{ inputs.folder }}
+    - ${{ inputs.file_types }}
+    - ${{ inputs.model }}

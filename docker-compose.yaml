@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    command: ["op-xxx", "repo-docs", "/github/workspace/src/app"]
+    volumes:
+      - ../example-repo:/github/workspace

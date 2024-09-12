@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "index-docs-opper"
+version = "0.1.0"
+description = ""
+authors = ["Johnny Chadda <johnny@opper.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+opperai = "^0.15.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
