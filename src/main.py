@@ -17,7 +17,7 @@ model = sys.argv[5]
 
 # Get GitHub-related information from environment variables
 repository = os.environ.get("GITHUB_REPOSITORY")
-commit_sha = os.environ.get("GITHUB_SHA")
+github_ref = os.environ.get("GITHUB_REF")
 
 
 try:
@@ -69,8 +69,8 @@ def process_markdown_file(file_path):
 
     # Create the GitHub URL for the file
     relative_path = os.path.relpath(file_path, folder_path)
-    encoded_path = urllib.parse.quote(relative_path)
-    github_url = f"https://github.com/{repository}/blob/{commit_sha}/{encoded_path}"
+    encoded_path = urllib.parse.quote(os.path.join(folder_path, relative_path))
+    github_url = f"https://github.com/{repository}/blob/{github_ref}/{encoded_path}"
     meta_data["url"] = github_url
 
     print(meta_data)
