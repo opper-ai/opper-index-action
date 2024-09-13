@@ -5,16 +5,25 @@ from opperai.types.exceptions import APIError
 from opperai.types import BaseModel, Field
 import os
 import sys
+import urllib.parse
 
 os.environ["OPPER_API_KEY"] = sys.argv[1]
 opper = Opper()
 
+index_name = sys.argv[2]
+folder_path = sys.argv[3]
+file_types = sys.argv[4].split()
 model = sys.argv[5]
 
+# Get GitHub-related information from environment variables
+repository = os.environ.get("GITHUB_REPOSITORY")
+commit_sha = os.environ.get("GITHUB_SHA")
+
+
 try:
-    index = opper.indexes.create(name=sys.argv[2])
+    index = opper.indexes.create(name=index_name)
 except APIError:
-    index = opper.indexes.get(name=sys.argv[2])
+    index = opper.indexes.get(name=index_name)
     if not index:
         raise Exception("Index not found")
 
@@ -37,11 +46,8 @@ def create_metadata(file_data: dict) -> Object:
 
 def process_markdown_file(file_path):
     """
-    Process the markdown file. The processing logic depends on your requirements.
-    For example, you might want to read the file's content, perform some modifications,
-    or simply print the file path.
+    Process the markdown file and create a URL for the file in the GitHub repository.
     """
-
     file_name = file_path
 
     with open(file_path) as f:
@@ -60,6 +66,13 @@ def process_markdown_file(file_path):
         name="create_metadata", input=file_data, output_type=Object, model=model
     )
     meta_data = dict(meta_data)
+
+    # Create the GitHub URL for the file
+    relative_path = os.path.relpath(file_path, folder_path)
+    encoded_path = urllib.parse.quote(relative_path)
+    github_url = f"https://github.com/{repository}/blob/{commit_sha}/{encoded_path}"
+    meta_data["url"] = github_url
+
     print(meta_data)
 
     index_document(key=file_name, metadata=meta_data, content=contents)
@@ -83,11 +96,8 @@ def index_document(key, metadata, content):
 if __name__ == "__main__":
     if len(sys.argv) < 5:
         print(
-            "Usage: python script.py <api_key> <index_name> <model> <folder_path> <file_types>"
+            "Usage: python script.py <api_key> <index_name> <folder_path> <file_types> <model>"
         )
         sys.exit(1)
-
-    folder_path = sys.argv[3]
-    file_types = sys.argv[4].split()
 
     traverse_and_process(folder_path)
