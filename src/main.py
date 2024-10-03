@@ -48,7 +48,7 @@ def process_markdown_file(file_path):
     """
     Process the markdown file and create a URL for the file in the GitHub repository.
     """
-    file_name = file_path
+    file_name = os.path.basename(file_path)
 
     with open(file_path) as f:
         lines = f.readlines()
@@ -66,6 +66,7 @@ def process_markdown_file(file_path):
         name="create_metadata", input=file_data, output_type=Object, model=model
     )
     meta_data = dict(meta_data)
+    meta_data["name"] = file_name
 
     # Create the GitHub URL for the file
     relative_path = os.path.relpath(file_path, folder_path)
