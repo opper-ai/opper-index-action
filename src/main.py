@@ -1,11 +1,12 @@
 # From https://github.com/opper-ai/test-integration/blob/main/index_docs.py
-from opperai import Opper
-from opperai.types.indexes import DocumentIn
-from opperai.types.exceptions import APIError
-from opperai.types import BaseModel, Field
 import os
 import sys
 import urllib.parse
+
+from opperai import Opper, trace
+from opperai.types import BaseModel, Field
+from opperai.types.exceptions import APIError
+from opperai.types.indexes import DocumentIn
 
 os.environ["OPPER_API_KEY"] = sys.argv[1]
 opper = Opper()
@@ -79,6 +80,7 @@ def process_markdown_file(file_path):
     index_document(key=file_name, metadata=meta_data, content=contents)
 
 
+@trace
 def traverse_and_process(folder_path):
     """
     Recursively traverse the given folder, processing each markdown file found.
